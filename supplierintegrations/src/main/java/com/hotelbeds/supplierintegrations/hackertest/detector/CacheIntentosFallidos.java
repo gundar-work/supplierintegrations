@@ -10,6 +10,7 @@ class CacheIntentosFallidos {
 
 	private final Map<String, IntentosFallidos> intentosFallidosPorIp = new HashMap<>();
 	private final LimpiadorEntradasCaducadas limpiadorCache = new LimpiadorEntradasCaducadas(10, TimeUnit.MINUTES);
+	
 	private final long umbralIntentosFallidosSeg;
 	private final int maximosIntentosFallidos;
 	
@@ -29,11 +30,11 @@ class CacheIntentosFallidos {
 			limpiadorCache.limpiar(intentosFallidosPorIp, linea.getDate(), maximosIntentosFallidos);
 		}
 
-		IntentosFallidos intentosFallidos = intentosFallidosPorIp.computeIfAbsent(linea.getIp(), (s)-> new  IntentosFallidos());
+		IntentosFallidos intentosFallidos = intentosFallidosPorIp.computeIfAbsent(
+				linea.getIp(), 
+				(s)-> new  IntentosFallidos(maximosIntentosFallidos, umbralIntentosFallidosSeg));
 
-		int intentosFallidosEnUmbral = intentosFallidos.getIntentosFallidosEnUmbral(linea.getDate(), umbralIntentosFallidosSeg);
-		
-		return intentosFallidosEnUmbral >= maximosIntentosFallidos;
+		return intentosFallidos.maxIntentosFallidosSuperados(linea.getDate());
 	}
 	
 }
