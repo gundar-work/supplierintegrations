@@ -23,7 +23,7 @@ public class HackerDetectorImpl implements HackerDetector{
 	@Override
 	public String parseLine(String line) {
 
-		log.info("Comprobando ataques en la linea de log [{}]", line);
+		log.info("Comprobando la linea de log [{}]", line);
 
 		LineaLog lineaLog = lineaParser.parse(line);
 
@@ -45,7 +45,7 @@ public class HackerDetectorImpl implements HackerDetector{
 		if(lineaLog.loginExitoso()) {
 
 			esIpSospechosa = false;
-			log.debug("Login exitoso, NO es ip sospechosa [{}] la linea = {}", lineaLog);
+			log.debug("Login exitoso, NO es ip sospechosa la linea = {}", lineaLog);
 
 		}else {
 
