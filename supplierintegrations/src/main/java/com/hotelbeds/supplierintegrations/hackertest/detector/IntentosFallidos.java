@@ -65,7 +65,7 @@ class IntentosFallidos {
 	
 	private boolean superadoMaximoIntentosFallidos(int intentoActual) {
 		
-		return intentoActual > maximoIntentosFallidos;
+		return intentoActual >= maximoIntentosFallidos;
 	}
 
 	@Override
