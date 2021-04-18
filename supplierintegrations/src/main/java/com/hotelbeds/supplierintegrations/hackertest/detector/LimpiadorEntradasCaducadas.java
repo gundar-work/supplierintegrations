@@ -27,7 +27,7 @@ class LimpiadorEntradasCaducadas {
 
 			Entry<String, IntentosFallidos> entry = iterator.next();
 
-			if(ultimoIntentoFallidoCaducado(entry, timestampMinimoAnterior)) {
+			if(haCaducadoUltimoIntentoFallido(entry, timestampMinimoAnterior)) {
 				iterator.remove();
 			}
 		}
@@ -35,7 +35,7 @@ class LimpiadorEntradasCaducadas {
 		timestampUltimaLimpieza = System.currentTimeMillis();
 	}
 
-	private boolean ultimoIntentoFallidoCaducado(Entry<String, IntentosFallidos> entry, long timestampMinimoAnterior) {
+	private boolean haCaducadoUltimoIntentoFallido(Entry<String, IntentosFallidos> entry, long timestampMinimoAnterior) {
 
 		long ultimoTimestamp = entry.getValue().getUltimoIntentoFallido();
 
