@@ -42,4 +42,9 @@ class IntentosFallidos {
 		return timestampAnterior < timestampMinimoAnterior;
 	}
 
+	@Override
+	public String toString() {
+		return "IntentosFallidos [timestampIntentosFallidos=" + timestampIntentosFallidos + "]";
+	}
+
 }
