@@ -27,9 +27,7 @@ public class HackerDetectorImpl implements HackerDetector{
 
 		LineaLog lineaLog = lineaParser.parse(line);
 
-		boolean esIpSospechosa = cacheIntentosFallidos.esIpSospechosa(lineaLog);
-
-		log.debug("Es ip sospechosa [{}] la linea = {}", esIpSospechosa, lineaLog);
+		boolean esIpSospechosa = esIpSospechosa(lineaLog);
 
 		final String ipSospechosa;
 		if(esIpSospechosa) {
@@ -39,6 +37,23 @@ public class HackerDetectorImpl implements HackerDetector{
 		}
 
 		return ipSospechosa;
+	}
+
+	private boolean esIpSospechosa(LineaLog lineaLog) {
+
+		final boolean esIpSospechosa;
+		if(lineaLog.loginExitoso()) {
+
+			esIpSospechosa = false;
+			log.debug("Login exitoso, NO es ip sospechosa [{}] la linea = {}", lineaLog);
+
+		}else {
+
+			esIpSospechosa = cacheIntentosFallidos.esIpSospechosa(lineaLog);
+			log.debug("Es ip sospechosa [{}] la linea = {}", esIpSospechosa, lineaLog);
+		}
+
+		return esIpSospechosa;
 	}
 
 }
