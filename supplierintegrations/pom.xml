@@ -12,9 +12,6 @@
 		<java.version>11</java.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
 		<maven.compiler.forceJavacCompilerUse>true</maven.compiler.forceJavacCompilerUse>
-
-		<!-- DEPENDENCIAS -->
-		<spring-boot.version></spring-boot.version>
 	</properties>
 
 	<parent>
