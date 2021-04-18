@@ -9,7 +9,7 @@ class LineaParser {
 	
 	private static final Logger log = LoggerFactory.getLogger(LineaParser.class);
 	
-	private static final int NUMERO_ELEMENTOS = 4;
+	private static final int NUMERO_CAMPOS = 4;
 	private final String separadorCampos;
 	
 	public LineaParser(String separadorCampos) {
@@ -20,10 +20,10 @@ class LineaParser {
 		
 		log.debug("Parseando la linea [{}]", lineaLog);
 		
-		String[] camposLinea = lineaLog.split(separadorCampos, NUMERO_ELEMENTOS);
+		String[] camposLinea = lineaLog.split(separadorCampos, NUMERO_CAMPOS);
 		
-		if(camposLinea.length != NUMERO_ELEMENTOS) {
-			throw new IllegalArgumentException("La línea no contiene los [" + NUMERO_ELEMENTOS + "] campos esperados. Linea = [" + lineaLog + "]");
+		if(camposLinea.length != NUMERO_CAMPOS) {
+			throw new IllegalArgumentException("La línea no contiene los [" + NUMERO_CAMPOS + "] campos esperados. Linea = [" + lineaLog + "]");
 		}
 		
 		String ip = camposLinea[0];
