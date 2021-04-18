@@ -6,24 +6,34 @@ import java.util.concurrent.TimeUnit;
 
 class CacheIntentosFallidos {
 
-	private static final long UMBRAL_INTENTO_FALLIDOS_MS = TimeUnit.MINUTES.toMillis(5);
 	private static final int MAXIMO_INTENTOS_FALLIDOS = 5;
 
 	private final Map<String, IntentosFallidos> intentosFallidosPorIp = new HashMap<>();
 	private final LimpiadorEntradasCaducadas limpiadorCache = new LimpiadorEntradasCaducadas(10, TimeUnit.MINUTES);
+	private final long umbralIntentosFallidosSeg;
+	private final int maximosIntentosFallidos;
+	
+	public CacheIntentosFallidos() {
+		this(5, TimeUnit.MINUTES, MAXIMO_INTENTOS_FALLIDOS);
+	}
+	
+	public CacheIntentosFallidos(long periodoIntentosFallidos, TimeUnit unidadUmbral, int maximosIntentosFallidos) {
+		this.umbralIntentosFallidosSeg = unidadUmbral.toSeconds(periodoIntentosFallidos);
+		this.maximosIntentosFallidos = maximosIntentosFallidos;
+	}
 
 	public boolean esIpSospechosa(LineaLog linea) {
 		
 		if(limpiadorCache.debeLimpiarCache()) {
 			
-			limpiadorCache.limpiar(intentosFallidosPorIp, linea.getDate(), MAXIMO_INTENTOS_FALLIDOS);
+			limpiadorCache.limpiar(intentosFallidosPorIp, linea.getDate(), maximosIntentosFallidos);
 		}
 
 		IntentosFallidos intentosFallidos = intentosFallidosPorIp.computeIfAbsent(linea.getIp(), (s)-> new  IntentosFallidos());
 
-		int intentosFallidosEnUmbral = intentosFallidos.getIntentosFallidosEnUmbral(linea.getDate(), UMBRAL_INTENTO_FALLIDOS_MS);
+		int intentosFallidosEnUmbral = intentosFallidos.getIntentosFallidosEnUmbral(linea.getDate(), umbralIntentosFallidosSeg);
 		
-		return intentosFallidosEnUmbral >= MAXIMO_INTENTOS_FALLIDOS;
+		return intentosFallidosEnUmbral >= maximosIntentosFallidos;
 	}
 	
 }
